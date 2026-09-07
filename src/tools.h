@@ -36,6 +36,7 @@ enum {
     TOOL_EXTRUDE,
     TOOL_FUZZY_SELECT,
     TOOL_RECT_SELECT,
+    TOOL_STAMP,
 
     TOOL_COUNT
 };
@@ -56,6 +57,7 @@ struct tool {
     const char *action_id;
     int action_idx;
     void (*init_fn)(tool_t *tool);
+    void (*release_fn)(tool_t *tool);
     int (*iter_fn)(tool_t *tool, const painter_t *painter,
                    const float viewport[4]);
     int (*gui_fn)(tool_t *tool);
@@ -78,6 +80,7 @@ struct tool {
     }
 
 void tool_register_(tool_t *tool);
+void tools_release(void);
 const tool_t *tool_get(int id);
 
 int tool_iter(tool_t *tool, const painter_t *painter, const float viewport[4]);

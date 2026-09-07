@@ -37,6 +37,7 @@ void gui_tools_panel(void)
         {TOOL_RECT_SELECT,  ACTION_tool_set_rect_select,  ICON_TOOL_RECT_SELECTION},
         {TOOL_EXTRUDE,      ACTION_tool_set_extrude,      ICON_TOOL_EXTRUDE},
         {TOOL_LINE,         ACTION_tool_set_line,         ICON_TOOL_LINE},
+        {TOOL_STAMP,        ACTION_tool_set_stamp,        ICON_IMAGE},
     };
 
     const int nb = ARRAY_SIZE(values);

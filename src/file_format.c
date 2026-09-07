@@ -26,6 +26,16 @@
 // The global hash table of file formats.
 file_format_t *file_formats = NULL;
 
+int file_format_export_voxels_per_unit = 32;
+
+float file_format_get_export_scale(void)
+{
+    int value = file_format_export_voxels_per_unit;
+    if (value < 1) value = 1;
+    if (value > 256) value = 256;
+    return 1.0f / value;
+}
+
 static bool endswith(const char *str, const char *end)
 {
     const char *start;

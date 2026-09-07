@@ -301,12 +301,21 @@ static void save_layer(gltf_t *g, cgltf_node *root_node,
     cgltf_primitive *primitive;
     cgltf_buffer_view *buffer_view;
     cgltf_accessor *accessor;
+    float scale = file_format_get_export_scale();
+    int i;
 
     mesh = volume_generate_mesh(
             layer->volume, goxel.rend.settings.effects, palette,
             g_export_options.simplify);
 
     if (mesh->vertices_count == 0) return;
+
+    // Bake export units into positions and bounds, leaving normals unchanged.
+    for (i = 0; i < mesh->vertices_count; i++) {
+        vec3_mul(mesh->vertices[i].pos, scale, mesh->vertices[i].pos);
+    }
+    vec3_mul(mesh->pos_min, scale, mesh->pos_min);
+    vec3_mul(mesh->pos_max, scale, mesh->pos_max);
 
     gmesh = add_item(g->data, meshes);
     ALLOC(gmesh->primitives, 1);
@@ -499,6 +508,8 @@ static int export_as_glb(const file_format_t *format, const image_t *img,
 
 static void export_gui(file_format_t *format)
 {
+    gui_input_int(_("Voxels per unit"), &file_format_export_voxels_per_unit,
+                  1, 256);
     gui_checkbox(_("Vertex Color"), &g_export_options.vertex_color,
                  _("Save colors as vertex attribute"));
     gui_checkbox(_("Visible Only"), &g_export_options.visible_only,

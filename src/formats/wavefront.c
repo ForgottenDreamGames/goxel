@@ -95,6 +95,7 @@ static int export(const volume_t *volume, const char *path, bool ply)
     uint8_t c[3];
     int nb_elems, i, j, bpos[3];
     float mat[4][4];
+    float scale = file_format_get_export_scale();
     FILE *out;
     const int N = BLOCK_SIZE;
     int size = 0, subdivide;
@@ -128,6 +129,7 @@ static int export(const volume_t *volume, const char *path, bool ply)
                 v[1] = verts[i * size + j].pos[1] / (float)subdivide;
                 v[2] = verts[i * size + j].pos[2] / (float)subdivide;
                 mat4_mul_vec3(mat, v, v);
+                vec3_mul(v, scale, v);
                 memcpy(c, verts[i * size + j].color, 3);
                 line = (line_t){
                     .v = {v[0], v[1], v[2]}, .c = {c[0], c[1], c[2]}};
@@ -232,6 +234,8 @@ int ply_export(const file_format_t *format, const image_t *image,
 
 static void export_gui(file_format_t *format)
 {
+    gui_input_int(_("Voxels per unit"), &file_format_export_voxels_per_unit,
+                  1, 256);
     gui_checkbox(_("Y Up"), &g_export_options.y_up, _("Use +Y up convention"));
 }
 

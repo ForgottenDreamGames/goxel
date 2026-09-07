@@ -18,7 +18,7 @@
 
 #include "goxel.h"
 
-static const tool_t *g_tools[TOOL_COUNT] = {};
+static tool_t *g_tools[TOOL_COUNT] = {};
 
 static void a_tool_set(void *data)
 {
@@ -48,6 +48,15 @@ void tool_register_(tool_t *tool)
 const tool_t *tool_get(int id)
 {
     return g_tools[id];
+}
+
+void tools_release(void)
+{
+    int i;
+    for (i = 0; i < TOOL_COUNT; i++) {
+        if (g_tools[i] && g_tools[i]->release_fn)
+            g_tools[i]->release_fn(g_tools[i]);
+    }
 }
 
 static int pick_color_gesture(gesture3d_t *gest)

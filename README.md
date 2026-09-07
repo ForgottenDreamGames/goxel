@@ -65,6 +65,9 @@ Usage
 - Left/Right arrow: rotate the view.
 - Mouse wheel: zoom in and out.
 
+- Image stamping: choose the picture icon in Tools to project an image onto
+  existing voxels. See the [Image Stamp guide](doc/image-stamp.md).
+
 
 Building
 --------

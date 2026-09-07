@@ -295,9 +295,12 @@ static void filters_to_nfd_spec(
     int i;
     size_t len = 0;
 
+    if (!buf_size) return;
     buf[0] = '\0';
     for (i = 0; filters[i]; i++) {
-        len += snprintf(buf + len, buf_size - len, "%s", filters[i] + 2);
+        if (len + strlen(filters[i] + 2) + (i != 0) >= buf_size) break;
+        len += snprintf(buf + len, buf_size - len, "%s%s",
+                        i ? "," : "", filters[i] + 2);
     }
 }
 

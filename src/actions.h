@@ -87,6 +87,7 @@ enum {
     ACTION_tool_set_rect_select,
     ACTION_tool_set_line,
     ACTION_tool_set_move,
+    ACTION_tool_set_stamp,
 
     ACTION_export_to_photos,
 

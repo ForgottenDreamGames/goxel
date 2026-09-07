@@ -572,6 +572,7 @@ void goxel_reset(void)
 void goxel_release(void)
 {
     pathtracer_stop(&goxel.pathtracer);
+    tools_release();
     gui_release();
 }
 
@@ -747,6 +748,9 @@ static int on_drag_rotate(const gesture_t *gest, void *user)
 {
     float pos[3], normal[3];
     bool snap;
+    // The stamp uses left drag on its projection plane, including outside
+    // the model. Middle/right mouse navigation remains available.
+    if (goxel.tool->id == TOOL_STAMP) return 1;
     if (gest->state == GESTURE_BEGIN) {
         if (box_edit_is_active()) return 1; // XXX: to remve.
         snap = goxel_unproject(

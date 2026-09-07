@@ -55,6 +55,10 @@ void file_format_iter(const char *mode, void *user,
 // The global list of registered file formats.
 extern file_format_t *file_formats;
 
+// Shared mesh export setting: integer voxels per unit, from 1 to 256.
+extern int file_format_export_voxels_per_unit;
+float file_format_get_export_scale(void);
+
 #define FILE_FORMAT_REGISTER(id_, ...) \
     static file_format_t GOX_format_##id_ = {__VA_ARGS__}; \
     __attribute__((constructor)) \
